@@ -10,6 +10,7 @@ import {
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { User } from "@/entities/User"
 
 const navigation = [
   {
@@ -74,6 +75,10 @@ const AppLayout = ({ children }) => {
                 <Button
                   variant="ghost"
                   className="w-full justify-start gap-x-3 text-slate-400 hover:text-white hover:bg-slate-800"
+                  onClick={async () => {
+                    await User.logout();
+                    navigate('/login');
+                  }}
                 >
                   <LogOut className="h-5 w-5" />
                   התנתק
@@ -122,6 +127,10 @@ const AppLayout = ({ children }) => {
               <Button
                 variant="ghost"
                 className="w-full justify-start gap-x-3 text-slate-400 hover:text-white hover:bg-slate-800"
+                onClick={async () => {
+                  await User.logout();
+                  navigate('/login');
+                }}
               >
                 <LogOut className="h-5 w-5" />
                 התנתק
