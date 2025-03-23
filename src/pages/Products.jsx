@@ -480,33 +480,39 @@ const Products = () => {
   return (
     <AppLayout>
       <div className="space-y-6">
-        {/* Header Section */}
-        <div className="flex justify-between items-center">
+        {/* Header Section - Make it stack on mobile */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0">
           <div>
             <h2 className="text-2xl font-bold text-slate-100">מוצרים</h2>
             <p className="text-slate-400">נהל את קטלוג המוצרים שלך</p>
           </div>
-          <div className="flex gap-4">
+          <div className="flex flex-wrap gap-2 sm:gap-4 w-full sm:w-auto">
             <Button
               onClick={handleSmartCategories}
               disabled={processingSmartCategories}
-              className="bg-blue-500 hover:bg-blue-600 text-white"
+              className="bg-blue-500 hover:bg-blue-600 text-white text-sm sm:text-base flex-1 sm:flex-none"
+              size="sm"
             >
-              <Sparkles className="h-4 w-4 ml-2" />
-              קטגוריות חכמות
+              <Sparkles className="h-4 w-4 ml-1 sm:ml-2" />
+              <span className="sm:inline">קטגוריות חכמות</span>
+              <span className="inline sm:hidden">קטגוריות</span>
             </Button>
             <Button
               onClick={() => setIsShareDialogOpen(true)}
-              className="bg-blue-500 hover:bg-blue-600 text-white"
+              className="bg-blue-500 hover:bg-blue-600 text-white text-sm sm:text-base flex-1 sm:flex-none"
+              size="sm"
             >
-              <Share2 className="h-4 w-4 ml-2" />
-              שתף רשימה
+              <Share2 className="h-4 w-4 ml-1 sm:ml-2" />
+              <span>שתף</span>
             </Button>
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
               <DialogTrigger asChild>
-                <Button className="bg-emerald-500 hover:bg-emerald-600 text-white">
-                  <Plus className="h-4 w-4 ml-2" />
-                  הוסף מוצר
+                <Button 
+                  className="bg-emerald-500 hover:bg-emerald-600 text-white text-sm sm:text-base flex-1 sm:flex-none"
+                  size="sm"
+                >
+                  <Plus className="h-4 w-4 ml-1 sm:ml-2" />
+                  <span>הוסף מוצר</span>
                 </Button>
               </DialogTrigger>
               <DialogContent className="bg-slate-900 border-slate-800">
@@ -595,9 +601,14 @@ const Products = () => {
 
             <Dialog open={isBulkDialogOpen} onOpenChange={setBulkDialogOpen}>
               <DialogTrigger asChild>
-                <Button variant="outline" className="border-emerald-500 text-emerald-500 hover:bg-emerald-500/10">
-                  <FileUp className="h-4 w-4 ml-2" />
-                  ייבוא מוצרים
+                <Button 
+                  variant="outline" 
+                  className="border-emerald-500 text-emerald-500 hover:bg-emerald-500/10 text-sm sm:text-base flex-1 sm:flex-none"
+                  size="sm"
+                >
+                  <FileUp className="h-4 w-4 ml-1 sm:ml-2" />
+                  <span>ייבוא</span>
+                  <span className="hidden sm:inline"> מוצרים</span>
                 </Button>
               </DialogTrigger>
               <DialogContent className="bg-slate-900 border-slate-800 sm:max-w-[600px]">
@@ -699,7 +710,7 @@ const Products = () => {
 
         {/* Search, Filter, and View Options Section */}
         <div className="space-y-4">
-        <div className="flex flex-col sm:flex-row gap-4">
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
           <div className="relative flex-1">
             <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
             <Input
@@ -709,7 +720,7 @@ const Products = () => {
               className="pr-10 bg-slate-800 border-slate-700 text-slate-100"
             />
           </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 overflow-x-auto pb-2 sm:pb-0 mt-1 sm:mt-0">
               <div className="bg-slate-800 border border-slate-700 rounded-md p-1 flex shrink-0">
                 <Button
                   variant="ghost"
@@ -771,7 +782,7 @@ const Products = () => {
             </div>
           </div>
 
-          <div className="bg-slate-800/50 rounded-lg p-2">
+          <div className="bg-slate-800/50 rounded-lg p-2 overflow-x-auto">
             <Tabs value={selectedCategory} onValueChange={setSelectedCategory} className="w-full">
               <TabsList className="w-full bg-slate-800 border border-slate-700 p-1 h-auto flex-wrap">
                 {categories.map((category) => (
@@ -825,50 +836,76 @@ const Products = () => {
                 )}
 
                 {viewMode === "grid" && (
-          <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-3">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-2 sm:gap-3">
                     {products.map((product) => (
-              <div
-                key={product.id}
-                className="group relative bg-slate-800/50 rounded-lg border border-slate-700 p-3 hover:bg-slate-800 transition-all hover:shadow-lg hover:border-slate-600"
-              >
-                {/* Product Name */}
-                <div className="text-sm font-medium text-slate-100 mb-2 truncate" title={product.name}>
-                  {product.name}
-                </div>
+                      <div
+                        key={product.id}
+                        className="group relative bg-slate-800/50 rounded-lg border border-slate-700 p-2 sm:p-3 hover:bg-slate-800 transition-all hover:shadow-lg hover:border-slate-600"
+                      >
+                        {/* Product Name */}
+                        <div className="text-sm font-medium text-slate-100 mb-1 sm:mb-2 truncate" title={product.name}>
+                          {product.name}
+                        </div>
 
-                {/* Category Badge */}
-                <div className="mb-2">
-                  <Badge 
-                    variant="secondary" 
-                    className="text-xs bg-slate-700 hover:bg-slate-600 text-slate-100 truncate max-w-full"
-                    title={product.category}
-                  >
-                    {product.category}
-                  </Badge>
-                </div>
+                        {/* Category Badge */}
+                        <div className="mb-1 sm:mb-2">
+                          <Badge 
+                            variant="secondary" 
+                            className="text-xs bg-slate-700 hover:bg-slate-600 text-slate-100 truncate max-w-full"
+                            title={product.category}
+                          >
+                            {product.category}
+                          </Badge>
+                        </div>
 
-                        {/* Action Buttons */}
-                <div className="absolute inset-0 bg-slate-900/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 rounded-lg">
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    onClick={() => handleEditProduct(product.id)}
-                    className="h-8 w-8 p-0 hover:bg-slate-700"
-                  >
-                    <Pencil className="h-4 w-4 text-slate-100" />
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    onClick={() => handleDeleteProduct(product.id)}
-                    className="h-8 w-8 p-0 hover:bg-red-500/10 hover:text-red-500"
-                  >
-                    <Trash2 className="h-4 w-4 text-slate-100 hover:text-red-400" />
-                  </Button>
-                </div>
-              </div>
-            ))}
-          </div>
+                        {/* Action Buttons - Show on mobile without hover */}
+                        <div className="absolute inset-0 bg-slate-900/80 opacity-0 group-hover:opacity-100 sm:transition-opacity flex items-center justify-center gap-2 rounded-lg">
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => handleEditProduct(product.id)}
+                            className="h-8 w-8 p-0 hover:bg-slate-700"
+                          >
+                            <Pencil className="h-4 w-4 text-slate-100" />
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => handleDeleteProduct(product.id)}
+                            className="h-8 w-8 p-0 hover:bg-red-500/10 hover:text-red-500"
+                          >
+                            <Trash2 className="h-4 w-4 text-slate-100 hover:text-red-400" />
+                          </Button>
+                        </div>
+                        
+                        {/* Touch-friendly actions for mobile */}
+                        <div className="absolute top-1 left-1 sm:hidden flex gap-1">
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleEditProduct(product.id);
+                            }}
+                            className="h-6 w-6 p-0 bg-slate-700/70"
+                          >
+                            <Pencil className="h-3 w-3 text-slate-100" />
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDeleteProduct(product.id);
+                            }}
+                            className="h-6 w-6 p-0 bg-slate-700/70"
+                          >
+                            <Trash2 className="h-3 w-3 text-slate-100" />
+                          </Button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 )}
 
                 {viewMode === "list" && (
@@ -876,9 +913,9 @@ const Products = () => {
                     {products.map((product) => (
                       <div
                         key={product.id}
-                        className="flex items-center justify-between bg-slate-800/50 rounded-lg border border-slate-700 p-4 hover:bg-slate-800 transition-all hover:shadow-lg hover:border-slate-600"
+                        className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-slate-800/50 rounded-lg border border-slate-700 p-3 sm:p-4 hover:bg-slate-800 transition-all hover:shadow-lg hover:border-slate-600"
                       >
-                        <div className="flex items-center gap-4 flex-1">
+                        <div className="flex items-start gap-2 flex-1">
                           <div>
                             <div className="font-medium text-slate-100">{product.name}</div>
                             <Badge 
@@ -889,7 +926,7 @@ const Products = () => {
                             </Badge>
                           </div>
                         </div>
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 mt-3 sm:mt-0 self-end sm:self-auto">
                           <Button
                             size="sm"
                             variant="ghost"
@@ -913,60 +950,62 @@ const Products = () => {
                 )}
 
                 {viewMode === "table" && (
-                  <div className="rounded-lg border border-slate-700 overflow-hidden">
-                    <table className="w-full">
-                      <thead className="bg-slate-800">
-                        <tr>
-                          <th className="text-right text-slate-400 text-sm font-medium py-3 px-4">שם המוצר</th>
-                          <th className="text-right text-slate-400 text-sm font-medium py-3 px-4">קטגוריה</th>
-                          <th className="text-right text-slate-400 text-sm font-medium py-3 px-4">תאריך יצירה</th>
-                          <th className="text-right text-slate-400 text-sm font-medium py-3 px-4">פעולות</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {products.map((product, index) => (
-                          <tr 
-                            key={product.id}
-                            className={`border-t border-slate-700 hover:bg-slate-800/50 ${
-                              index % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-900/50'
-                            }`}
-                          >
-                            <td className="py-3 px-4 text-slate-100">{product.name}</td>
-                            <td className="py-3 px-4">
-                              <Badge 
-                                variant="secondary" 
-                                className="text-xs bg-slate-700 hover:bg-slate-600 text-slate-100"
-                              >
-                                {product.category}
-                              </Badge>
-                            </td>
-                            <td className="py-3 px-4 text-slate-400">
-                              {new Date(product.createdAt).toLocaleDateString('he-IL')}
-                            </td>
-                            <td className="py-3 px-4">
-                              <div className="flex items-center gap-2">
-                                <Button
-                                  size="sm"
-                                  variant="ghost"
-                                  onClick={() => handleEditProduct(product.id)}
-                                  className="hover:bg-slate-700"
-                                >
-                                  <Pencil className="h-4 w-4 text-slate-100" />
-                                </Button>
-                                <Button
-                                  size="sm"
-                                  variant="ghost"
-                                  onClick={() => handleDeleteProduct(product.id)}
-                                  className="hover:bg-red-500/10"
-                                >
-                                  <Trash2 className="h-4 w-4 text-slate-100 hover:text-red-400" />
-                                </Button>
-                              </div>
-                            </td>
+                  <div className="rounded-lg border border-slate-700 overflow-x-auto">
+                    <div className="min-w-[600px]">
+                      <table className="w-full">
+                        <thead className="bg-slate-800">
+                          <tr>
+                            <th className="text-right text-slate-400 text-sm font-medium py-3 px-4">שם המוצר</th>
+                            <th className="text-right text-slate-400 text-sm font-medium py-3 px-4">קטגוריה</th>
+                            <th className="text-right text-slate-400 text-sm font-medium py-3 px-4">תאריך יצירה</th>
+                            <th className="text-right text-slate-400 text-sm font-medium py-3 px-4">פעולות</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody>
+                          {products.map((product, index) => (
+                            <tr 
+                              key={product.id}
+                              className={`border-t border-slate-700 hover:bg-slate-800/50 ${
+                                index % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-900/50'
+                              }`}
+                            >
+                              <td className="py-3 px-4 text-slate-100">{product.name}</td>
+                              <td className="py-3 px-4">
+                                <Badge 
+                                  variant="secondary" 
+                                  className="text-xs bg-slate-700 hover:bg-slate-600 text-slate-100"
+                                >
+                                  {product.category}
+                                </Badge>
+                              </td>
+                              <td className="py-3 px-4 text-slate-400">
+                                {new Date(product.createdAt).toLocaleDateString('he-IL')}
+                              </td>
+                              <td className="py-3 px-4">
+                                <div className="flex items-center gap-2">
+                                  <Button
+                                    size="sm"
+                                    variant="ghost"
+                                    onClick={() => handleEditProduct(product.id)}
+                                    className="hover:bg-slate-700"
+                                  >
+                                    <Pencil className="h-4 w-4 text-slate-100" />
+                                  </Button>
+                                  <Button
+                                    size="sm"
+                                    variant="ghost"
+                                    onClick={() => handleDeleteProduct(product.id)}
+                                    className="hover:bg-red-500/10"
+                                  >
+                                    <Trash2 className="h-4 w-4 text-slate-100 hover:text-red-400" />
+                                  </Button>
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 )}
               </div>
@@ -983,4 +1022,4 @@ const Products = () => {
   )
 }
 
-export default Products 
+export default Products

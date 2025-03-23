@@ -514,11 +514,12 @@ const ListDetail = () => {
 
   return (
     <AppLayout>
-      <div className="container max-w-4xl mx-auto py-6 px-4">
-        <div className="flex justify-between items-start mb-6">
+      <div className="container max-w-4xl mx-auto py-4 sm:py-6 px-3 sm:px-4">
+        {/* Header Section - Made responsive for mobile */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 sm:mb-6 gap-3 sm:gap-0">
           <div>
-            <h1 className="text-2xl font-bold text-slate-100 mb-2">{list.name}</h1>
-            <div className="flex items-center gap-4 text-sm text-slate-400">
+            <h1 className="text-xl sm:text-2xl font-bold text-slate-100 mb-2">{list.name}</h1>
+            <div className="flex flex-wrap items-center gap-3 text-sm text-slate-400">
               <div className="flex items-center gap-1">
                 <Package className="h-4 w-4" />
                 <span>{items.length} פריטים</span>
@@ -545,17 +546,19 @@ const ListDetail = () => {
               )}
             </div>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 w-full sm:w-auto mt-3 sm:mt-0">
             <Button
               onClick={() => setIsShareDialogOpen(true)}
-              className="bg-blue-500 hover:bg-blue-600 text-white"
+              className="bg-blue-500 hover:bg-blue-600 text-white flex-1 sm:flex-none"
+              size="sm"
             >
               <Share2 className="h-4 w-4 mr-2" />
               שתף
             </Button>
             <Button
               onClick={() => setIsDialogOpen(true)}
-              className="bg-emerald-500 hover:bg-emerald-600 text-white"
+              className="bg-emerald-500 hover:bg-emerald-600 text-white flex-1 sm:flex-none"
+              size="sm"
             >
               <Plus className="h-4 w-4 mr-2" />
               הוסף פריט
@@ -569,17 +572,19 @@ const ListDetail = () => {
           listId={list.id}
         />
 
+        {/* Completion Prompt - Make it more compact on mobile */}
         {showCompletionPrompt && (
-          <Alert className="bg-emerald-900/20 border-emerald-800">
+          <Alert className="bg-emerald-900/20 border-emerald-800 mb-4">
             <CheckCircle2 className="h-4 w-4 text-emerald-400" />
             <AlertTitle className="text-emerald-400">כל הפריטים נאספו!</AlertTitle>
             <AlertDescription className="text-emerald-300">
               האם תרצה לסמן את הרשימה כהושלמה?
             </AlertDescription>
-            <div className="mt-4 flex gap-2">
+            <div className="mt-3 sm:mt-4 flex gap-2 flex-wrap">
               <Button
                 onClick={handleCompleteList}
                 className="bg-emerald-500 hover:bg-emerald-600 text-white"
+                size="sm"
               >
                 סמן כהושלם
               </Button>
@@ -587,6 +592,7 @@ const ListDetail = () => {
                 variant="outline"
                 onClick={() => setShowCompletionPrompt(false)}
                 className="border-emerald-800 text-emerald-300 hover:text-emerald-200"
+                size="sm"
               >
                 המשך עריכה
               </Button>
@@ -594,10 +600,11 @@ const ListDetail = () => {
           </Alert>
         )}
 
+        {/* Empty State - Adjusted for mobile */}
         {items.length === 0 ? (
           <Card className="bg-slate-900 border-slate-800">
-            <CardContent className="flex flex-col items-center justify-center py-12">
-              <ShoppingCart className="h-12 w-12 text-slate-400 mb-4" />
+            <CardContent className="flex flex-col items-center justify-center py-8 sm:py-12">
+              <ShoppingCart className="h-10 sm:h-12 w-10 sm:w-12 text-slate-400 mb-4" />
               <h3 className="text-lg font-semibold text-slate-100 mb-2">הרשימה ריקה</h3>
               <p className="text-slate-400 text-center mb-4">
                 לא נוספו עדיין פריטים לרשימה זו
@@ -605,6 +612,7 @@ const ListDetail = () => {
               <Button
                 onClick={() => setIsDialogOpen(true)}
                 className="bg-emerald-500 hover:bg-emerald-600 text-white"
+                size="sm"
               >
                 <Plus className="h-4 w-4 mr-2" />
                 הוסף פריט ראשון
@@ -612,7 +620,7 @@ const ListDetail = () => {
             </CardContent>
           </Card>
         ) : (
-          <div className="grid gap-6">
+          <div className="grid gap-4 sm:gap-6">
             {/* Group and sort items */}
             {(() => {
               // Separate checked and unchecked items
@@ -647,50 +655,48 @@ const ListDetail = () => {
                         <SortableCategory key={category} category={category}>
                           {groupedUncheckedItems[category].map((item) => (
                             <Card key={item.id} className="bg-slate-900 border-slate-800">
-                              <CardContent className="flex items-center gap-4 p-4">
+                              <CardContent className="flex items-center gap-2 sm:gap-4 p-3 sm:p-4">
                                 <Button
                                   variant="ghost"
                                   size="sm"
-                                  className={cn(
-                                    "text-slate-400 hover:text-slate-300",
+                                  className={`p-1 sm:p-2 text-slate-400 hover:text-slate-300 ${
                                     item.isChecked && "text-emerald-500 hover:text-emerald-400"
-                                  )}
+                                  }`}
                                   onClick={() => handleToggleChecked(item)}
                                 >
                                   <CheckCircle2 className="h-5 w-5" />
                                 </Button>
 
                                 <div className="flex-1 min-w-0">
-                                  <h3 className={cn(
-                                    "font-medium text-slate-100 mb-1",
+                                  <h3 className={`font-medium text-slate-100 mb-0 sm:mb-1 text-sm sm:text-base ${
                                     item.isChecked && "text-slate-400 line-through"
-                                  )}>
+                                  }`}>
                                     {item.product?.name || 'מוצר לא ידוע'}
                                   </h3>
-                                  <div className="flex items-center gap-2 text-sm text-slate-400">
+                                  <div className="flex items-center gap-2 text-xs sm:text-sm text-slate-400">
                                     {item.product?.price && (
                                       <span>₪{item.product.price}</span>
                                     )}
                                   </div>
                                 </div>
                                 
-                                <div className="flex items-center gap-2">
-                                  <div className="flex items-center gap-1 bg-slate-800 rounded-md px-2 py-1">
+                                <div className="flex items-center gap-1 sm:gap-2">
+                                  <div className="flex items-center gap-1 bg-slate-800 rounded-md px-1 sm:px-2 py-1">
                                     <Button
                                       size="sm"
                                       variant="ghost"
-                                      className="h-7 w-7 p-0 hover:bg-slate-700 hover:text-slate-100"
+                                      className="h-6 w-6 sm:h-7 sm:w-7 p-0 hover:bg-slate-700 hover:text-slate-100"
                                       onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}
                                     >
                                       <Minus className="h-3 w-3" />
                                     </Button>
-                                    <span className="text-sm font-medium w-8 text-center text-slate-100">
+                                    <span className="text-xs sm:text-sm font-medium w-6 sm:w-8 text-center text-slate-100">
                                       {item.quantity}
                                     </span>
                                     <Button
                                       size="sm"
                                       variant="ghost"
-                                      className="h-7 w-7 p-0 hover:bg-slate-700 hover:text-slate-100"
+                                      className="h-6 w-6 sm:h-7 sm:w-7 p-0 hover:bg-slate-700 hover:text-slate-100"
                                       onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}
                                     >
                                       <Plus className="h-3 w-3" />
@@ -700,7 +706,7 @@ const ListDetail = () => {
                                   <Button
                                     variant="ghost"
                                     size="sm"
-                                    className="text-slate-400 hover:text-red-400"
+                                    className="p-1 sm:p-2 text-slate-400 hover:text-red-400"
                                     onClick={() => handleRemoveItem(item.id)}
                                   >
                                     <Trash2 className="h-4 w-4" />
@@ -717,25 +723,25 @@ const ListDetail = () => {
                   {/* Render checked items */}
                   {checkedItems.length > 0 && (
                     <div className="grid gap-2">
-                      <h3 className="text-sm font-medium text-slate-400 px-1">פריטים שנאספו</h3>
+                      <h3 className="text-xs sm:text-sm font-medium text-slate-400 px-1">פריטים שנאספו</h3>
                       <div className="grid gap-2 opacity-60">
                         {checkedItems.map((item) => (
                           <Card key={item.id} className="bg-slate-900/50 border-slate-800">
-                            <CardContent className="flex items-center gap-4 p-4">
+                            <CardContent className="flex items-center gap-2 sm:gap-4 p-3 sm:p-4">
                               <Button
                                 variant="ghost"
                                 size="sm"
-                                className="text-emerald-500 hover:text-emerald-400"
+                                className="p-1 sm:p-2 text-emerald-500 hover:text-emerald-400"
                                 onClick={() => handleToggleChecked(item)}
                               >
                                 <CheckCircle2 className="h-5 w-5" />
                               </Button>
 
                               <div className="flex-1 min-w-0">
-                                <h3 className="font-medium text-slate-400 line-through mb-1">
+                                <h3 className="font-medium text-slate-400 line-through mb-0 sm:mb-1 text-sm sm:text-base">
                                   {item.product?.name || 'מוצר לא ידוע'}
                                 </h3>
-                                <div className="flex items-center gap-2 text-sm text-slate-500">
+                                <div className="flex items-center gap-2 text-xs sm:text-sm text-slate-500">
                                   <span>{item.quantity} יח׳</span>
                                   {item.product?.category && (
                                     <>
@@ -749,7 +755,7 @@ const ListDetail = () => {
                               <Button
                                 variant="ghost"
                                 size="sm"
-                                className="text-slate-400 hover:text-red-400"
+                                className="p-1 sm:p-2 text-slate-400 hover:text-red-400"
                                 onClick={() => handleRemoveItem(item.id)}
                               >
                                 <Trash2 className="h-4 w-4" />
@@ -768,7 +774,7 @@ const ListDetail = () => {
 
         {/* New Product Dialog */}
         <Dialog open={newProductDialogOpen} onOpenChange={setNewProductDialogOpen}>
-          <DialogContent className="bg-slate-900 border-slate-800 sm:max-w-[500px]">
+          <DialogContent className="bg-slate-900 border-slate-800 sm:max-w-[500px] w-[calc(100%-2rem)] max-h-[calc(100vh-2rem)] overflow-y-auto">
             <DialogHeader>
               <DialogTitle className="text-slate-100">הוספת מוצר חדש</DialogTitle>
               <DialogDescription className="text-slate-400">
@@ -893,28 +899,28 @@ const ListDetail = () => {
           </DialogContent>
         </Dialog>
 
-        {/* Products Dialog */}
+        {/* Products Dialog - Optimize for mobile */}
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogContent className="bg-slate-900 border-slate-800 sm:max-w-[800px]">
+          <DialogContent className="bg-slate-900 border-slate-800 sm:max-w-[800px] w-[calc(100%-2rem)] max-h-[calc(100vh-2rem)] overflow-y-auto p-4">
             <DialogHeader>
-              <DialogTitle className="text-slate-100">הוספת פריטים לרשימה</DialogTitle>
+              <DialogTitle className="text-slate-100 text-lg">הוספת פריטים לרשימה</DialogTitle>
             </DialogHeader>
 
-            <div className="flex flex-col h-full overflow-hidden">
-              <div className="flex justify-between items-center mb-4">
-                <div className="relative flex-1 max-w-sm">
-                  <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400" />
+            <div className="flex flex-col h-full overflow-hidden mt-2">
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-4">
+                <div className="relative flex-1">
+                  <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-4 w-4" />
                   <Input
                     placeholder="חיפוש מוצרים..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-3 pr-10 bg-slate-800 border-slate-700 text-slate-100"
+                    className="pl-3 pr-10 bg-slate-800 border-slate-700 text-slate-100 text-sm"
                   />
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 w-full sm:w-auto">
                   <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                    <SelectTrigger className="w-[130px] bg-slate-800 border-slate-700 text-slate-100">
+                    <SelectTrigger className="w-full sm:w-[130px] bg-slate-800 border-slate-700 text-slate-100 text-sm h-9">
                       <SelectValue placeholder="קטגוריה" />
                     </SelectTrigger>
                     <SelectContent className="bg-slate-800 border-slate-700">
@@ -932,16 +938,16 @@ const ListDetail = () => {
                       setIsDialogOpen(false)
                       setNewProductDialogOpen(true)
                     }}
-                    className="bg-emerald-500 hover:bg-emerald-600 text-white"
+                    className="bg-emerald-500 hover:bg-emerald-600 text-white ml-auto sm:ml-0 flex-1 sm:flex-none"
                     size="sm"
                   >
-                    <Plus className="h-4 w-4 mr-2" />
-                    מוצר חדש
+                    <Plus className="h-4 w-4 mr-1 sm:mr-2" />
+                    חדש
                   </Button>
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 max-h-[60vh] overflow-y-auto pr-2">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 sm:gap-3 max-h-[60vh] overflow-y-auto pr-2 -mr-2">
                 {getFilteredProducts().map(product => {
                   const isInList = items.some(item => item.product_id === product.id);
                   const listItem = items.find(item => item.product_id === product.id);
@@ -949,14 +955,12 @@ const ListDetail = () => {
                   return (
                     <div 
                       key={product.id}
-                      className={cn(
-                        "group relative bg-slate-800/50 rounded-lg border border-slate-700 p-3",
-                        "hover:bg-slate-800 transition-all hover:shadow-lg hover:border-slate-600",
-                        isInList && "ring-2 ring-emerald-500/50"
-                      )}
+                      className={`group relative bg-slate-800/50 rounded-lg border border-slate-700 p-2 sm:p-3
+                        hover:bg-slate-800 transition-all hover:shadow-lg hover:border-slate-600
+                        ${isInList ? "ring-2 ring-emerald-500/50" : ""}`}
                     >
                       {/* Product Name */}
-                      <div className="text-sm font-medium text-slate-100 mb-2 truncate" title={product.name}>
+                      <div className="text-xs sm:text-sm font-medium text-slate-100 mb-1 sm:mb-2 truncate" title={product.name}>
                         {product.name}
                       </div>
 
@@ -964,7 +968,7 @@ const ListDetail = () => {
                       <div className="mb-2">
                         <Badge 
                           variant="secondary" 
-                          className="text-xs bg-slate-700 hover:bg-slate-600 text-slate-100 truncate max-w-full"
+                          className="text-[10px] sm:text-xs px-1.5 py-0 sm:px-2 sm:py-0.5 bg-slate-700 hover:bg-slate-600 text-slate-100 truncate max-w-full"
                           title={product.category}
                         >
                           {product.category}
@@ -974,34 +978,34 @@ const ListDetail = () => {
                       {/* Quantity Controls */}
                       <div className="mt-auto">
                         {isInList ? (
-                          <div className="flex items-center justify-center gap-2">
+                          <div className="flex items-center justify-center gap-1 sm:gap-2">
                             <Button
                               size="sm"
                               variant="outline"
-                              className="h-8 w-8 p-0 border-slate-600"
+                              className="h-7 w-7 sm:h-8 sm:w-8 p-0 border-slate-600"
                               onClick={() => handleUpdateQuantity(listItem.id, listItem.quantity - 1)}
                             >
-                              <Minus className="h-4 w-4" />
+                              <Minus className="h-3 w-3 sm:h-4 sm:w-4" />
                             </Button>
-                            <span className="text-sm font-medium w-8 text-center text-slate-100">
+                            <span className="text-xs sm:text-sm font-medium w-6 sm:w-8 text-center text-slate-100">
                               {listItem.quantity}
                             </span>
                             <Button
                               size="sm"
                               variant="outline"
-                              className="h-8 w-8 p-0 border-slate-600"
+                              className="h-7 w-7 sm:h-8 sm:w-8 p-0 border-slate-600"
                               onClick={() => handleUpdateQuantity(listItem.id, listItem.quantity + 1)}
                             >
-                              <Plus className="h-4 w-4" />
+                              <Plus className="h-3 w-3 sm:h-4 sm:w-4" />
                             </Button>
                           </div>
                         ) : (
                           <Button
                             onClick={() => handleAddItem(product.id, 1)}
-                            className="w-full bg-emerald-500 hover:bg-emerald-600 text-white"
+                            className="w-full bg-emerald-500 hover:bg-emerald-600 text-white h-7 text-xs"
                             size="sm"
                           >
-                            <Plus className="h-4 w-4 mr-2" />
+                            <Plus className="h-3 w-3 mr-1" />
                             הוסף
                           </Button>
                         )}
@@ -1018,4 +1022,4 @@ const ListDetail = () => {
   )
 }
 
-export default ListDetail 
+export default ListDetail
